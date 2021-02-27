@@ -104,6 +104,29 @@ services:
       namespace: monitoring
     logging: *default-logging
 
+  thanos_sidecar:
+    image: yeya24/thanos:exemplar
+    command:
+      - "sidecar"
+      - "--prometheus.url=http://prometheus:9090"
+    expose:
+      - 10902
+      - 10901
+    logging: *default-logging
+
+  thanos_querier:
+    image: yeya24/thanos:exemplar
+    command:
+      - "query"
+      - "--store=thanos_sidecar:10901"
+      - "--exemplar=thanos_sidecar:10901"
+    expose:
+      - 10902
+      - 10901
+    ports:
+      - "10902:10902"
+    logging: *default-logging
+
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.38.7
     container_name: cadvisor
