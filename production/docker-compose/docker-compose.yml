@@ -83,7 +83,7 @@ services:
     logging: *default-logging
 
   prometheus:
-    image: tomwilkie/prometheus:0ea72b6a6
+    image: quay.io/prometheus/prometheus:main
     user: root
     command:
       - --config.file=/etc/prometheus/prometheus.yml
@@ -105,7 +105,7 @@ services:
     logging: *default-logging
 
   thanos_sidecar:
-    image: yeya24/thanos:exemplar
+    image: yeya24/thanos:exemplars
     command:
       - "sidecar"
       - "--prometheus.url=http://prometheus:9090"
@@ -115,7 +115,7 @@ services:
     logging: *default-logging
 
   thanos_querier:
-    image: yeya24/thanos:exemplar
+    image: yeya24/thanos:exemplars
     command:
       - "query"
       - "--store=thanos_sidecar:10901"
