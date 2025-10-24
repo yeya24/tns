@@ -20,7 +20,7 @@ version: '3.4'
 services:
 
   db:
-    image: grafana/tns-db:842bd3b
+    image: grafana/tns-db:47b160f
     command:
       - '-log.level=debug'
     ports:
@@ -35,7 +35,7 @@ services:
     logging: *default-logging
 
   app:
-    image: grafana/tns-app:842bd3b
+    image: grafana/tns-app:47b160f
     command:
       - '-log.level=debug'
       - 'http://db'
@@ -53,7 +53,7 @@ services:
     logging: *default-logging
 
   loadgen:
-    image: grafana/tns-loadgen:842bd3b
+    image: grafana/tns-loadgen:47b160f
     command:
       - '-log.level=debug'
       - 'http://app'
@@ -94,6 +94,7 @@ services:
       - --storage.tsdb.path=/prometheus
       - --storage.tsdb.retention.time=1d
       - --enable-feature=exemplar-storage
+      - --enable-feature=native-histograms
       - --log.level=debug
       - --web.enable-admin-api
     volumes:
@@ -109,7 +110,7 @@ services:
     logging: *default-logging
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.0
+    image: gcr.io/cadvisor/cadvisor:v0.52.1@sha256:f40e65878e25c2e78ea037f73a449527a0fb994e303dc3e34cb6b187b4b91435
     container_name: cadvisor
     ports:
       - 8080:8080
